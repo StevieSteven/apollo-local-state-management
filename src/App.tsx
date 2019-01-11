@@ -1,26 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import {ApolloProvider} from "react-apollo";
+import {Title} from "./components/Title/TitleComponent";
+import {TitleInput} from "./components/TitleInput/TitleInputComponent";
 
-class App extends Component {
+export interface IAppDataProps {
+  client: any
+}
+
+class App extends Component<IAppDataProps> {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <ApolloProvider client={this.props.client}>
+          <div className="App">
+            <div className="Column">
+              <h1>Input</h1>
+              <TitleInput/>
+            </div>
+          <div className="Column">
+            <h1>Output</h1>
+            <Title/>
+          </div>
+          </div>
+        </ApolloProvider>
     );
   }
 }
