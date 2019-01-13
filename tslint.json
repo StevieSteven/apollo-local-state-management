@@ -1,0 +1,55 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-config-prettier"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "config/**/*.js",
+      "node_modules/**/*.ts",
+      "coverage/lcov-report/*.js",
+      "*.test.ts",
+      "*.test.tsx"
+    ]
+  },
+  "defaultSeverity": "warning",
+  "rules": {
+    "max-line-length": {
+      "options": [
+        250
+      ]
+    },
+    "new-parens": true,
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-conditional-assignment": true,
+    "no-consecutive-blank-lines": false,
+    "no-unbound-method": true,
+    "no-unused-variable": true,
+    "no-namespace": false,
+    "no-trailing-whitespace": true,
+    "no-var-requires": false,
+    "trailing-comma": true,
+    "no-var-keyword": true,
+    "interface-name": true,
+    "eofline": true,
+    "max-classes-per-file": true,
+    "ordered-imports": false,
+    "jsx-boolean-value": false,
+    "array-type": false,
+    "jsx-no-lambda": false,
+    "object-literal-sort-keys": false,
+    "no-console": {
+      "severity": "warning",
+      "options": [
+        "debug",
+        "info",
+        "log",
+        "time",
+        "timeEnd",
+        "trace"
+      ]
+    }
+  }
+}

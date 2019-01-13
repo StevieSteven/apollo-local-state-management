@@ -1,16 +1,18 @@
 import React, {Component} from "react";
+import {DataValue} from "react-apollo";
 
-import gql from 'graphql-tag';
-import {graphql} from "react-apollo";
+export interface ITitleInputComponentDispatchProps {
+    changeTitleOfArticle: DataValue<{changeTitleOfArticle:string}, {title:string}>
+}
 
-class TitleInputComponent extends Component<any, any> {
+export class TitleInputComponent extends Component<ITitleInputComponentDispatchProps, any> {
 
   public render() {
-    const {mutate} = this.props;
+    const {changeTitleOfArticle} = this.props;
 
     const onBlur = (event: any) => {
       event.preventDefault();
-      mutate({
+        changeTitleOfArticle({
         variables: {
           title: event.target.value
         }
@@ -25,11 +27,3 @@ class TitleInputComponent extends Component<any, any> {
   }
 }
 
-
-const ChangeTitleQuery = gql`
-    mutation ChangeTitleOfArticle($title: String) {
-        changeTitleOfArticle(title: $title) @client
-    }
-`;
-
-export const TitleInput = graphql(ChangeTitleQuery)(TitleInputComponent);

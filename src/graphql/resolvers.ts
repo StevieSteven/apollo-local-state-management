@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import {GQLArticle, GQLResolver, MutationToChangeTitleOfArticleArgs} from "./schema";
 
 export const articleFragment = gql`
     fragment articleFragment on Article {
@@ -8,20 +9,20 @@ export const articleFragment = gql`
     }
 `;
 
-export const resolvers = {
+export const resolvers: GQLResolver = {
   Query: {
-    article: (obj: any, args: any, {getCacheKey, cache}: any, info: any) => {
+    article: (_: any, args: {}, {getCacheKey, cache}: any): GQLArticle => {
       const id = getCacheKey({__typename: 'Query', id: 1});
       const article = cache.readFragment({fragment: articleFragment, id});
       return article || defaults.article;
     }
   },
   Mutation: {
-    changeTitleOfArticle: (_: any, variables: any, {cache, getCacheKey}: any) => {
+    changeTitleOfArticle: (_: any, variables: MutationToChangeTitleOfArticleArgs, {cache, getCacheKey}: any): string => {
       const id = getCacheKey({__typename: 'Article', id: 1});
-      const article = cache.readFragment({fragment: articleFragment, id});
+      const article: GQLArticle = cache.readFragment({fragment: articleFragment, id});
       cache.writeData({
-        id: id,
+        id,
         data: {
           ...article,
           title: variables.title
@@ -32,11 +33,15 @@ export const resolvers = {
   }
 };
 
-export const defaults = {
+export interface IDefaultValues {
+    article: GQLArticle & {__typename: string} // fixme: should be removed
+}
+
+export const defaults: IDefaultValues = {
   article: {
     __typename: "Article",
     id: 1,
     title: "",
-    // content: "",
+    content: "",
   }
 };
