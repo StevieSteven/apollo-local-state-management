@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
-import {ChildDataProps, graphql} from "react-apollo";
+import {ChildMutateProps, graphql} from "react-apollo";
 import {ITitleInputComponentDispatchProps, TitleInputComponent} from "./TitleInputComponent";
-import {GQLArticle, MutationToChangeTitleOfArticleArgs} from "../../graphql/schema";
+import {MutationToChangeTitleOfArticleArgs} from "../../graphql/schema";
 import React from "react";
 
 const changeTitleQuery = gql`
@@ -11,20 +11,27 @@ const changeTitleQuery = gql`
 `;
 
 
-type Response = {changeTitleOfArticle: string};
+interface IResponse {
+    changeTitleOfArticle: string
+}
 
-type ChildProps = ChildDataProps<{}, Response, {title: string}>;
+type ChildProps = ChildMutateProps<any, IResponse, MutationToChangeTitleOfArticleArgs>; // fixme: remove first any
 
-const TitleInputConnector = graphql<{}, {title: string}, MutationToChangeTitleOfArticleArgs, ChildProps>(changeTitleQuery, {
+const propsFunction = (input: ChildProps): ITitleInputComponentDispatchProps => {
+    return {
+        changeTitleOfArticle: (value: string) => {
+            input.changeTitleOfArticle({
+                variables: {
+                    title: value
+                }
+            })
+        }
+    }
+};
+
+const operationProps = {
     name: "changeTitleOfArticle",
-    props: ({data, ownProps}) => {
-      return data;
-    },
-});
+    props: propsFunction,
+};
 
-export const TitleInput = TitleInputConnector((props: ITitleInputComponentDispatchProps) => {
-   console.log("props: ", props);
-   return <TitleInputComponent changeTitleOfArticle={props.changeTitleOfArticle}/>
-});
-
-// export const TitleInput = graphql<{}, {title:string}, MutationToChangeTitleOfArticleArgs, ChildProps>(changeTitleQuery)(TitleInputComponent); // fixme: remove casting
+export const TitleInput = graphql<{}, {}, MutationToChangeTitleOfArticleArgs, ChildProps>(changeTitleQuery, operationProps)(TitleInputComponent);
