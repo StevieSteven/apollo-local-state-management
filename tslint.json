@@ -10,7 +10,8 @@
       "node_modules/**/*.ts",
       "coverage/lcov-report/*.js",
       "*.test.ts",
-      "*.test.tsx"
+      "*.test.tsx",
+      "src/serviceWorker.ts"
     ]
   },
   "defaultSeverity": "warning",

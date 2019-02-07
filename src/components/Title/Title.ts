@@ -12,8 +12,10 @@ const titleQuery = gql`
     }
 `;
 
-type Response = {article: GQLArticle};
+interface IResponse {
+  article: GQLArticle;
+}
 
-type ChildProps = ChildDataProps<{}, Response, {}>;
+type ChildProps = ChildDataProps<{}, IResponse, {}>;
 
-export const Title = graphql<{}, Response, {}, ChildProps >(titleQuery)(TitleComponent);
+export const Title = graphql<{}, IResponse, {}, ChildProps>(titleQuery)(TitleComponent);
